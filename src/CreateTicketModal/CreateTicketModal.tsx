@@ -61,6 +61,7 @@ type FormikRenderProp<T> = {
   meta: FieldMetaProps<T>;
 };
 
+// TODO: Add validation using Yup schema.
 const CreateTicketModal = (props: any) => {
   let handleSubmit: (e?: React.FormEvent<HTMLFormElement>) => void = () => {};
 
