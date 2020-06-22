@@ -14,7 +14,6 @@ import {
 } from "formik";
 import { FieldInputProps } from "formik/dist/types";
 
-
 // TODO: Move types to an isolated directory/file.
 type Project = {
   readonly id: string;
@@ -74,9 +73,7 @@ const CreateTicketModal = (props: any) => {
       id="create-ticket-modal"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="create-ticket-modal">
-          Create ticket
-        </Modal.Title>
+        <Modal.Title id="create-ticket-modal">Create ticket</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik
@@ -91,6 +88,9 @@ const CreateTicketModal = (props: any) => {
             labels: [],
           }}
           onSubmit={(values) => {
+            // Quill component includes paragraph tags which need to be removed
+            // to extract text content.
+            values.description = values.description.replace(/^<p>|<\/p>$/g, "");
             console.log(values);
           }}
         >
@@ -135,7 +135,6 @@ const CreateTicketModal = (props: any) => {
                     <Form.Group>
                       <Form.Label>Description</Form.Label>
                       <TextEditor
-                          // TODO: Fix value including <p></p>. Remove p tags.
                         onChange={field.onChange(field.name)}
                         value={field.value}
                         name="description"
