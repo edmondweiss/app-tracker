@@ -1,8 +1,12 @@
 import ReactQuill from "react-quill";
 import React from "react";
+import { FieldInputProps } from "formik/dist/types";
 
-export default class TextEditor extends React.Component<{}, any> {
-  constructor(props = {}) {
+export default class TextEditor extends React.Component<
+  FieldInputProps<string>,
+  any
+> {
+  constructor(props: FieldInputProps<string>) {
     super(props);
     this.state = {
       text: "",
@@ -15,6 +19,12 @@ export default class TextEditor extends React.Component<{}, any> {
   }
 
   render() {
-    return <ReactQuill value={this.state.text} onChange={this.handleChange} />;
+    return (
+      <ReactQuill
+        value={this.props.value}
+        onChange={this.props.onChange}
+        onBlur={this.props.onBlur}
+      />
+    );
   }
 }

@@ -14,6 +14,8 @@ import {
 } from "formik";
 import { FieldInputProps } from "formik/dist/types";
 
+
+// TODO: Move types to an isolated directory/file.
 type Project = {
   readonly id: string;
   readonly title: string;
@@ -66,12 +68,12 @@ const CreateTicketModal = (props: any) => {
     <Modal
       {...props}
       size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
+      aria-labelledby="create-ticket-modal"
       centered
       id="create-ticket-modal"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
+        <Modal.Title id="create-ticket-modal">
           Create ticket
         </Modal.Title>
       </Modal.Header>
@@ -131,7 +133,13 @@ const CreateTicketModal = (props: any) => {
                   {({ field, form, meta }: FormikRenderProp<string>) => (
                     <Form.Group>
                       <Form.Label>Description</Form.Label>
-                      <TextEditor {...field} />
+                      <TextEditor
+                          // TODO: Fix value including <p></p>. Remove p tags.
+                        onChange={field.onChange(field.name)}
+                        value={field.value}
+                        name="description"
+                        onBlur={field.onBlur}
+                      />
                     </Form.Group>
                   )}
                 </Field>
