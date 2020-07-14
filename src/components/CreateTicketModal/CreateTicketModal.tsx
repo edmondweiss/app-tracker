@@ -15,12 +15,6 @@ import {
 import { FieldInputProps } from "formik/dist/types";
 
 // TODO: Move types to an isolated directory/file.
-type Project = {
-  readonly id: string;
-  readonly title: string;
-  readonly fullName: string;
-  readonly createDate: string;
-};
 
 type Assignee = {
   readonly id: string;

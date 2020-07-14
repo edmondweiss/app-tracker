@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
 import CreateTicketModal from "./CreateTicketModal";
 
@@ -18,7 +18,7 @@ function CloseTicketModalButton(props: { onClick: () => void }) {
   return <Button onClick={props.onClick}>Creating ticket...</Button>;
 }
 
-export default class CreateTicketModalControl extends React.Component<
+export default class CreateTicketModalControl extends Component<
   {},
   ModalState
 > {

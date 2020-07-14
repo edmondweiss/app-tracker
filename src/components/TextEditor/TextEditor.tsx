@@ -3,13 +3,7 @@ import React from "react";
 import { FieldInputProps } from "formik/dist/types";
 
 const TextEditor = (props: FieldInputProps<string>) => {
-  return (
-    <ReactQuill
-      value={props.value}
-      onChange={props.onChange}
-      onBlur={props.onBlur}
-    />
-  );
+  return <ReactQuill value={props.value} onChange={props.onChange} />;
 };
 
 export default TextEditor;
