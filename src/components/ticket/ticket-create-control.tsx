@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
-import CreateTicketModal from "./CreateTicketModal";
+import TicketCreateModal from "./ticket-create-modal";
+import { Project } from "../project/project-types";
 
 enum CreateTicketModalButtonLabel {
   CREATE = "Create ticket",
@@ -18,10 +19,7 @@ function CloseTicketModalButton(props: { onClick: () => void }) {
   return <Button onClick={props.onClick}>Creating ticket...</Button>;
 }
 
-export default class CreateTicketModalControl extends Component<
-  {},
-  ModalState
-> {
+export default class TicketCreateControl extends Component<{}, ModalState> {
   constructor(props = {}) {
     super(props);
 
@@ -59,7 +57,7 @@ export default class CreateTicketModalControl extends Component<
     return (
       <>
         {button}
-        <CreateTicketModal
+        <TicketCreateModal
           show={this.state.isModalOpen}
           onHide={this.handleModalHide}
         />

@@ -1,8 +1,8 @@
 import React from "react";
 import "react-quill/dist/quill.snow.css";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
-import "./App.css";
-import { Header } from "./components/Header/Header";
+import "./app.css";
+import { Header } from "./components/header/header";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faUser,
@@ -10,7 +10,7 @@ import {
   faSignOutAlt,
   faPlus,
 } from "@fortawesome/free-solid-svg-icons";
-import Projects from "./components/Projects/Projects";
+import ProjectView from "./components/project/project-view";
 
 library.add(faUser);
 library.add(faCog);
@@ -22,7 +22,7 @@ function App() {
     <div className="App">
       <Header></Header>
       <main className="mt-">
-        <Projects></Projects>
+        <ProjectView></ProjectView>
       </main>
     </div>
   );

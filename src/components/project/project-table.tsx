@@ -1,12 +1,7 @@
 import React, { FC } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
 import { ReactBootstrapTableColumn } from "../../Types/ReactBootstrapTable";
-
-export type Project = {
-  readonly id: string;
-  readonly name: string;
-  readonly createDate: string;
-};
+import { Project } from "./project-types";
 
 type ProjectTableProps<T extends object> = {
   projects: readonly Project[];

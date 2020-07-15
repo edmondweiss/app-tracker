@@ -1,10 +1,14 @@
-import React from "react";
+import React, { Component } from "react";
 import Button from "react-bootstrap/Button";
-import CreateTicketModal from "../CreateTicketModal/CreateTicketModal";
-import CreateProjectModal from "./CreateProjectModal";
+import { ProjectCreateModal } from "./project-create-modal";
+import { Project } from "./project-types";
 
 type ModalState = {
   isModalOpen: boolean;
+};
+
+type ProjectCreateControlProps = {
+  createProject: (project: Readonly<Project>) => void;
 };
 
 function CreateProjectModalButton(props: { onClick: () => void }) {
@@ -15,11 +19,11 @@ function CloseProjectModalButton(props: { onClick: () => void }) {
   return <Button onClick={props.onClick}>Creating project...</Button>;
 }
 
-export default class CreateProjectsControl extends React.Component<
-  {},
+export class ProjectCreateControl extends Component<
+  ProjectCreateControlProps,
   ModalState
 > {
-  constructor(props = {}) {
+  constructor(props: ProjectCreateControlProps) {
     super(props);
 
     this.state = {
@@ -58,9 +62,10 @@ export default class CreateProjectsControl extends React.Component<
     return (
       <>
         {button}
-        <CreateProjectModal
+        <ProjectCreateModal
           show={this.state.isModalOpen}
           onHide={this.handleModalHide}
+          createProject={this.props.createProject}
         />
       </>
     );

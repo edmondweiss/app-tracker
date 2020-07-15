@@ -5,7 +5,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import CreateTicketModalControl from "../CreateTicketModal/CreateTicketModalControl";
+import TicketCreateControl from "../ticket/ticket-create-control";
 
 // TODO: Fix alignment of icons in dropdown items.
 export const Header: FC = () => (
@@ -14,7 +14,7 @@ export const Header: FC = () => (
     <Navbar.Toggle aria-controls="basic-navbar-nav" />
     <Navbar.Collapse id="basic-navbar-nav">
       <Nav className="mr-auto">
-        <NavDropdown id="header-projects" title="Projects">
+        <NavDropdown id="header-projects" title="ProjectView">
           <NavDropdown.Item>All projects</NavDropdown.Item>
           <NavDropdown.Item>
             Create project <FontAwesomeIcon icon="plus" />
@@ -32,7 +32,7 @@ export const Header: FC = () => (
             Create filter <FontAwesomeIcon icon="plus" />
           </NavDropdown.Item>
         </NavDropdown>
-        <CreateTicketModalControl />
+        <TicketCreateControl />
       </Nav>
 
       <Form inline>

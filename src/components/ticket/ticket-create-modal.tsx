@@ -2,17 +2,9 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import React from "react";
 import Form from "react-bootstrap/Form";
-import TextEditor from "../TextEditor/TextEditor";
-import {
-  Field,
-  FieldMetaProps,
-  Form as FormikForm,
-  Formik,
-  FormikBag,
-  FormikHandlers,
-  useFormik,
-} from "formik";
-import { FieldInputProps } from "formik/dist/types";
+import TextEditor from "../text-editor/text-editor";
+import { Field, Formik } from "formik";
+import { FormikRenderProp } from "../../core/formik/formik-types";
 
 // TODO: Move types to an isolated directory/file.
 
@@ -48,14 +40,8 @@ type Ticket = {
   readonly labels: [];
 };
 
-type FormikRenderProp<T> = {
-  field: FieldInputProps<T>;
-  form: any;
-  meta: FieldMetaProps<T>;
-};
-
 // TODO: Add validation using Yup schema.
-const CreateTicketModal = (props: any) => {
+const TicketCreateModal = (props: any) => {
   let handleSubmit: (e?: React.FormEvent<HTMLFormElement>) => void = () => {};
 
   return (
@@ -180,4 +166,4 @@ const CreateTicketModal = (props: any) => {
   );
 };
 
-export default CreateTicketModal;
+export default TicketCreateModal;
