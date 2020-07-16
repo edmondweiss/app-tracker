@@ -77,7 +77,7 @@ const TicketCreateModal = (props: any) => {
           {(formik) => {
             handleSubmit = formik.handleSubmit;
             return (
-              <Form onSubmit={formik.handleSubmit}>
+              <Form>
                 <Field name="projectId">
                   {({ field, form, meta }: FormikRenderProp<string>) => (
                     <Form.Group>

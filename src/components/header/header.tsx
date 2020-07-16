@@ -6,6 +6,24 @@ import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TicketCreateControl from "../ticket/ticket-create-control";
+import Dropdown from "react-bootstrap/esm/Dropdown";
+import DropdownToggle from "react-bootstrap/esm/DropdownToggle";
+import { DropdownToggleProps } from "react-bootstrap/DropdownToggle";
+
+const IconToggle = React.forwardRef<DropdownToggle, DropdownToggleProps>(
+  ({ className, onClick, children }, ref) => {
+    return (
+      <div
+        className={className}
+        onClick={onClick}
+        // TODO: Figure out why ref is incompatible with div ref.
+        ref={(ref as unknown) as string}
+      >
+        {children}
+      </div>
+    );
+  }
+);
 
 // TODO: Fix alignment of icons in dropdown items.
 export const Header: FC = () => (
@@ -38,19 +56,20 @@ export const Header: FC = () => (
       <Form inline>
         <FormControl type="text" placeholder="Search" className=" mr-sm-2" />
       </Form>
+      <Dropdown alignRight>
+        <Dropdown.Toggle as={IconToggle} id="header-user">
+          <FontAwesomeIcon icon="user" />
+        </Dropdown.Toggle>
 
-      <NavDropdown
-        title={<FontAwesomeIcon icon="user" />}
-        id="header-user"
-        alignRight
-      >
-        <NavDropdown.Item className="d-flex justify-content-between">
-          Account settings <FontAwesomeIcon icon="cog" />
-        </NavDropdown.Item>
-        <NavDropdown.Item className="d-flex justify-content-between">
-          Log out <FontAwesomeIcon icon="sign-out-alt" />
-        </NavDropdown.Item>
-      </NavDropdown>
+        <Dropdown.Menu>
+          <Dropdown.Item eventKey="1" as={NavDropdown.Item}>
+            Account settings <FontAwesomeIcon icon="cog" />
+          </Dropdown.Item>
+          <Dropdown.Item eventKey="2" as={NavDropdown.Item}>
+            Log out <FontAwesomeIcon icon="sign-out-alt" />
+          </Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
     </Navbar.Collapse>
   </Navbar>
 );
