@@ -5,11 +5,13 @@ import "./app.css";
 import { Header } from "./components/header/header";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
-  faUser,
   faCog,
-  faSignOutAlt,
   faPlus,
+  faSignOutAlt,
+  faUser,
 } from "@fortawesome/free-solid-svg-icons";
+
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ProjectView from "./components/project/project-view";
 
 library.add(faUser);
@@ -19,12 +21,19 @@ library.add(faPlus);
 
 function App() {
   return (
-    <div className="App">
-      <Header></Header>
-      <main className="mt-">
-        <ProjectView></ProjectView>
-      </main>
-    </div>
+    <Router>
+      <div className="App">
+        <Header></Header>
+        <main className="mt-">
+          <Switch>
+            <Route path="/projects">
+              <ProjectView></ProjectView>
+            </Route>
+            <Route path="/" />
+          </Switch>
+        </main>
+      </div>
+    </Router>
   );
 }
 
