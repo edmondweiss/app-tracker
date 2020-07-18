@@ -29,22 +29,33 @@ const projectColumns: readonly ReactBootstrapTableColumn<
 ] as const;
 
 export default class ProjectView extends Component<{}, ProjectsState> {
-  private projects: readonly Project[] = this.createProjects(10);
+  private searchableProjectKeys = new Set([
+    "name",
+    "leadEngineer",
+    "createDate",
+  ]);
 
   constructor(props = {}) {
     super(props);
-
+    const projects = this.createProjects(10);
     this.state = {
-      projects: this.projects,
+      filterValue: "",
+      projects: projects,
+      visibleProjects: projects,
     };
   }
 
   handleCreateProject = (project: Project) => {
-    this.setState((state, props) => {
-      return {
-        projects: [...this.state.projects, project],
-      };
-    });
+    this.setState(
+      (state, props) => {
+        return {
+          projects: [...this.state.projects, project],
+        };
+      },
+      () => {
+        this.filterProjects(this.state.filterValue);
+      }
+    );
   };
 
   createProjects(numOfProjects: number): Project[] {
@@ -60,12 +71,41 @@ export default class ProjectView extends Component<{}, ProjectsState> {
     return projects;
   }
 
+  filterProjects = (filterValue: string) => {
+    const searchRegex = new RegExp(filterValue, "i");
+    this.setState((state) => {
+      if (filterValue === "") {
+        return { ...state };
+      }
+      const filteredProjects = state.projects.filter((project) => {
+        for (const key in project) {
+          if (
+            project.hasOwnProperty(key) &&
+            this.searchableProjectKeys.has(key) &&
+            searchRegex.test(project[key as keyof Project])
+          ) {
+            return true;
+          }
+        }
+        return false;
+      });
+
+      return {
+        filterValue: filterValue,
+        visibleProjects: filteredProjects,
+      };
+    });
+  };
+
   render() {
     return (
       <>
         <ProjectHeader createProject={this.handleCreateProject} />
-        <ProjectFilter />
-        <ProjectTable projects={this.state.projects} columns={projectColumns} />
+        <ProjectFilter onFilter={this.filterProjects} />
+        <ProjectTable
+          projects={this.state.visibleProjects}
+          columns={projectColumns}
+        />
       </>
     );
   }

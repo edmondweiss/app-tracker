@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import { Project } from "./project-types";
 import * as faker from "faker";
 import { Field, Formik } from "formik";
-import { FormikRenderProp } from "../../core/formik/formik-types";
+import { FormikRenderProp } from "../../core/form/formik-types";
 
 type ProjectCreateModalProps = {
   createProject: (project: Readonly<Project>) => void;
