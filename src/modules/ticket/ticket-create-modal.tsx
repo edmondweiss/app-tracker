@@ -4,7 +4,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import TextEditor from "../text-editor/text-editor";
 import { Field, Formik } from "formik";
-import { FormikRenderProp } from "../../core/form/formik-types";
+import { FormikRenderProp } from "../../global/form/formik-types";
 
 // TODO: Move types to an isolated directory/file.
 

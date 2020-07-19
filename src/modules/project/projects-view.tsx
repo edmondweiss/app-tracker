@@ -3,9 +3,22 @@ import { ProjectHeader } from "./project-header";
 import { ProjectTable } from "./project-table";
 import faker from "faker";
 import { ReactBootstrapTableColumn } from "../../Types/ReactBootstrapTable";
-import { compareStringDates } from "../../core/comparator/comparator";
+import { compareStringDates } from "../../global/comparator/comparator";
 import { ProjectFilter } from "./project-filter";
-import { Project, ProjectsState } from "./project-types";
+import { Project } from "./project-types";
+import { ColumnFormatter } from "react-bootstrap-table-next";
+import { Link } from "react-router-dom";
+import { dateColumnFormatter } from "../../global/date/date";
+
+type ProjectsViewState = {
+  filterValue: string;
+  projects: ReadonlyArray<Project>;
+  visibleProjects: ReadonlyArray<Project>;
+};
+
+const navLinkFormatter: ColumnFormatter<Project> = (cell, data) => {
+  return <Link to={`projects/${data.id}`}>{data.name}</Link>;
+};
 
 const projectColumns: readonly ReactBootstrapTableColumn<
   Readonly<Project>
@@ -14,12 +27,16 @@ const projectColumns: readonly ReactBootstrapTableColumn<
     dataField: "name",
     text: "Name",
     sort: true,
+    formatter: navLinkFormatter,
   },
   {
     dataField: "createDate",
     text: "Date Created",
     sort: true,
     sortFunc: compareStringDates,
+    formatter: dateColumnFormatter(
+      /(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})/
+    ),
   },
   {
     dataField: "leadEngineer",
@@ -28,7 +45,7 @@ const projectColumns: readonly ReactBootstrapTableColumn<
   },
 ] as const;
 
-export default class ProjectView extends Component<{}, ProjectsState> {
+export class ProjectsView extends Component<{}, ProjectsViewState> {
   private searchableProjectKeys = new Set([
     "name",
     "leadEngineer",
@@ -38,6 +55,7 @@ export default class ProjectView extends Component<{}, ProjectsState> {
   constructor(props = {}) {
     super(props);
     const projects = this.createProjects(10);
+
     this.state = {
       filterValue: "",
       projects: projects,

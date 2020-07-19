@@ -1,11 +1,15 @@
 import React, { ChangeEvent, FC } from "react";
 import { Formik, Field } from "formik";
 import Form from "react-bootstrap/Form";
-import { FormikRenderProp } from "../../core/form/formik-types";
-import { ProjectFilterProps } from "./project-types";
+import { FormikRenderProp } from "../../global/form/formik-types";
+import { FilterProjects } from "./project-types";
 
 type ProjectFilterValues = {
   searchValue: string;
+};
+
+type ProjectFilterProps = {
+  onFilter: FilterProjects;
 };
 
 export const ProjectFilter: FC<ProjectFilterProps> = ({ onFilter }) => {
