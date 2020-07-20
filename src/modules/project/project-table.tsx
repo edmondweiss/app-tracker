@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import BootstrapTable from "react-bootstrap-table-next";
-import { ReactBootstrapTableColumn } from "../../Types/ReactBootstrapTable";
+import { ReactBootstrapTableColumn } from "../../global/types/ReactBootstrapTable";
 import { Project } from "./project-types";
 
 type ProjectTableProps<T extends object> = {

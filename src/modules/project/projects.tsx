@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ProjectHeader } from "./project-header";
 import { ProjectTable } from "./project-table";
 import faker from "faker";
-import { ReactBootstrapTableColumn } from "../../Types/ReactBootstrapTable";
+import { ReactBootstrapTableColumn } from "../../global/types/ReactBootstrapTable";
 import { compareStringDates } from "../../global/comparator/comparator";
 import { ProjectFilter } from "./project-filter";
 import { Project } from "./project-types";
