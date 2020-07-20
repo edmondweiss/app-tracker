@@ -12,7 +12,7 @@ export const compareDates: DateComparator = (a, b, order = "asc") =>
     ? a.getMilliseconds() - b.getMilliseconds()
     : b.getMilliseconds() - a.getMilliseconds();
 
-export const compareStringDates: StringComparator = (a, b, order = "asc") =>
+export const compareDateStrings: StringComparator = (a, b, order = "asc") =>
   order === "asc"
     ? numericStringCollator.compare(
         a.replace(dateDelimiterRegex, ""),

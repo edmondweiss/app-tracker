@@ -3,7 +3,7 @@ import { ProjectHeader } from "./project-header";
 import { ProjectTable } from "./project-table";
 import faker from "faker";
 import { ReactBootstrapTableColumn } from "../../global/types/ReactBootstrapTable";
-import { compareStringDates } from "../../global/comparator/comparator";
+import { compareDateStrings } from "../../global/comparator/comparator";
 import { ProjectFilter } from "./project-filter";
 import { Project } from "./project-types";
 import { ColumnFormatter } from "react-bootstrap-table-next";
@@ -42,7 +42,7 @@ const projectColumns: readonly ReactBootstrapTableColumn<
     dataField: "createDate",
     text: "Date Created",
     sort: true,
-    sortFunc: compareStringDates,
+    sortFunc: compareDateStrings,
     formatter: dateColumnFormatter(
       /(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})/
     ),
