@@ -4,7 +4,7 @@ import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "./app.css";
 import { Header } from "./modules/header/header";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ProjectsView } from "./modules/project/projects-view";
+import { Projects } from "./modules/project/projects";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faCog,
@@ -12,24 +12,26 @@ import {
   faSignOutAlt,
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
+import { Project } from "./modules/project/project";
 
 library.add(faCog, faPlus, faSignOutAlt, faUser);
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <main className="mt-">
-          <Switch>
-            <Route path="/projects">
-              <ProjectsView />
-            </Route>
-            <Route path="/" />
-          </Switch>
-        </main>
-      </div>
-    </Router>
+    <div className="App">
+      <Header />
+      <main className="mt-">
+        <Switch>
+          <Route path="/projects/:projectId">
+            <Project />
+          </Route>
+          <Route path="/projects">
+            <Projects />
+          </Route>
+          <Route path="/" />
+        </Switch>
+      </main>
+    </div>
   );
 }
 

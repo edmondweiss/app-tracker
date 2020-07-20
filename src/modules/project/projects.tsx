@@ -10,14 +10,23 @@ import { ColumnFormatter } from "react-bootstrap-table-next";
 import { Link } from "react-router-dom";
 import { dateColumnFormatter } from "../../global/date/date";
 
-type ProjectsViewState = {
+type ProjectsState = {
   filterValue: string;
   projects: ReadonlyArray<Project>;
   visibleProjects: ReadonlyArray<Project>;
 };
 
 const navLinkFormatter: ColumnFormatter<Project> = (cell, data) => {
-  return <Link to={`projects/${data.id}`}>{data.name}</Link>;
+  return (
+    <Link
+      to={{
+        pathname: `projects/${encodeURIComponent(data.id)}`,
+        state: data,
+      }}
+    >
+      {data.name}
+    </Link>
+  );
 };
 
 const projectColumns: readonly ReactBootstrapTableColumn<
@@ -45,7 +54,7 @@ const projectColumns: readonly ReactBootstrapTableColumn<
   },
 ] as const;
 
-export class ProjectsView extends Component<{}, ProjectsViewState> {
+export class Projects extends Component<{}, ProjectsState> {
   private searchableProjectKeys = new Set([
     "name",
     "leadEngineer",
@@ -67,11 +76,11 @@ export class ProjectsView extends Component<{}, ProjectsViewState> {
     this.setState(
       (state, props) => {
         return {
-          projects: [...this.state.projects, project],
+          projects: [...state.projects, project],
         };
       },
       () => {
-        this.filterProjects(this.state.filterValue);
+        this.handleFilterProjects(this.state.filterValue);
       }
     );
   };
@@ -89,28 +98,32 @@ export class ProjectsView extends Component<{}, ProjectsViewState> {
     return projects;
   }
 
-  filterProjects = (filterValue: string) => {
-    const searchRegex = new RegExp(filterValue, "i");
-    this.setState((state) => {
-      if (filterValue === "") {
-        return { ...state };
-      }
-      const filteredProjects = state.projects.filter((project) => {
-        for (const key in project) {
-          if (
-            project.hasOwnProperty(key) &&
-            this.searchableProjectKeys.has(key) &&
-            searchRegex.test(project[key as keyof Project])
-          ) {
-            return true;
-          }
+  filterProjects = (
+    projects: readonly Project[] = [],
+    searchRegex: RegExp
+  ): Project[] =>
+    projects.filter((project) => {
+      for (const key in project) {
+        if (
+          project.hasOwnProperty(key) &&
+          this.searchableProjectKeys.has(key) &&
+          searchRegex.test(project[key as keyof Project])
+        ) {
+          return true;
         }
-        return false;
-      });
+      }
+      return false;
+    });
 
+  handleFilterProjects = (filterValue: string) => {
+    this.setState((state) => {
       return {
+        projects: state.projects,
+        visibleProjects:
+          filterValue === ""
+            ? state.projects
+            : this.filterProjects(state.projects, new RegExp(filterValue, "i")),
         filterValue: filterValue,
-        visibleProjects: filteredProjects,
       };
     });
   };
@@ -119,7 +132,7 @@ export class ProjectsView extends Component<{}, ProjectsViewState> {
     return (
       <>
         <ProjectHeader createProject={this.handleCreateProject} />
-        <ProjectFilter onFilter={this.filterProjects} />
+        <ProjectFilter onFilter={this.handleFilterProjects} />
         <ProjectTable
           projects={this.state.visibleProjects}
           columns={projectColumns}
