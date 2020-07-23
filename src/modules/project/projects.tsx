@@ -2,57 +2,16 @@ import React, { Component } from "react";
 import { ProjectHeader } from "./project-header";
 import { ProjectTable } from "./project-table";
 import faker from "faker";
-import { ReactBootstrapTableColumn } from "../../global/types/ReactBootstrapTable";
-import { compareDateStrings } from "../../global/comparator/comparator";
 import { ProjectFilter } from "./project-filter";
 import { Project } from "./project-types";
-import { ColumnFormatter } from "react-bootstrap-table-next";
-import { Link } from "react-router-dom";
-import { dateColumnFormatter } from "../../global/date/date";
+import { filter } from "../../global/util/util";
+import { projectColumns } from "./project-table-config";
 
 type ProjectsState = {
   filterValue: string;
   projects: ReadonlyArray<Project>;
   visibleProjects: ReadonlyArray<Project>;
 };
-
-const navLinkFormatter: ColumnFormatter<Project> = (cell, data) => {
-  return (
-    <Link
-      to={{
-        pathname: `projects/${encodeURIComponent(data.id)}`,
-        state: data,
-      }}
-    >
-      {data.name}
-    </Link>
-  );
-};
-
-const projectColumns: readonly ReactBootstrapTableColumn<
-  Readonly<Project>
->[] = [
-  {
-    dataField: "name",
-    text: "Name",
-    sort: true,
-    formatter: navLinkFormatter,
-  },
-  {
-    dataField: "createDate",
-    text: "Date Created",
-    sort: true,
-    sortFunc: compareDateStrings,
-    formatter: dateColumnFormatter(
-      /(?<year>\d{4})-(?<month>\d{1,2})-(?<day>\d{1,2})/
-    ),
-  },
-  {
-    dataField: "leadEngineer",
-    text: "Lead",
-    sort: true,
-  },
-] as const;
 
 export class Projects extends Component<{}, ProjectsState> {
   private searchableProjectKeys = new Set([
@@ -98,31 +57,17 @@ export class Projects extends Component<{}, ProjectsState> {
     return projects;
   }
 
-  filterProjects = (
-    projects: readonly Project[] = [],
-    searchRegex: RegExp
-  ): Project[] =>
-    projects.filter((project) => {
-      for (const key in project) {
-        if (
-          project.hasOwnProperty(key) &&
-          this.searchableProjectKeys.has(key) &&
-          searchRegex.test(project[key as keyof Project])
-        ) {
-          return true;
-        }
-      }
-      return false;
-    });
-
   handleFilterProjects = (filterValue: string) => {
+    if (filterValue === "") {
+      return;
+    }
     this.setState((state) => {
       return {
-        projects: state.projects,
-        visibleProjects:
-          filterValue === ""
-            ? state.projects
-            : this.filterProjects(state.projects, new RegExp(filterValue, "i")),
+        visibleProjects: filter(
+          state.projects,
+          this.searchableProjectKeys,
+          new RegExp(filterValue, "i")
+        ),
         filterValue: filterValue,
       };
     });
